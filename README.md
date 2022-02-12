@@ -29,7 +29,7 @@
   * [0_مقدمه](0_introduction(completed)/introduction.md)
 * [1_کد تمیز](1_Clean_Code(completed)/clean-code.md)
 
-  * [کد همیشه وجود خواهد داشت](1_Clean_Code(completed)/clean-code.md#%DA%A9%D8%AF-%D9%87%D9%85%DB%8C%D8%B4%D9%87-%D9%88%D8%AC%D9%88%D8%AF-%D8%AE%D9%88%D8%A7%D9%87%D8%AF-%D8%AF%D8%A7%D8%B4%D8%AA)
+  * [کد همیشه وجود خواهد داشت](Book/1_Clean_Code/clean-code.md)
   
   * [کد بد](1_Clean_Code(completed)/clean-code.md#%DA%A9%D8%AF-%D8%A8%D8%AF)
   
