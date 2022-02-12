@@ -1,8 +1,8 @@
 
-<h1 dir="rtl"> ترجمه آزاد کتاب کد تمیز</h1>
+<h1 align="center" dir="rtl"> ترجمه آزاد کتاب کد تمیز</h1>
 <div dir="rtl">
 <p align="center">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXiCLaXo-haziow4z37tTCzYgsOZ2Bc2kJfRoedHtDO5l93LMo"/>
+  <img src="assets/image/CleanCodeRepo.jpg"/>
 </p>
  
 این پروژه یک کار گروهی برای ترجمه آزاد یکی از بهترین کتاب های برنامه نویسیه.
@@ -20,25 +20,12 @@
     
 </details>
 
-# این کتاب را میتوانید از سایت زیر بخوانید
-https://codetamiz.vercel.app/
-
 ## راهنمای مشارکت
 بخش هایی از کتاب که به زبان انگلیسی هستند و ترجمه نشده. کافیه اون قسمت ها رو با ترجمه جایگزین کنید و یه ریکوئست بفرستید. منم سر وقت اون رو باز بینی میکنم و اگه خوب بود به ترجمه اضافه میشه.
 
-اگر می‌خوای یک بخش بزرگ یا یک فصل رو ترجمه کنی با ایمیل زیر بهم خبر بده تا از ترجمه دوباره توسط بقیه جلوگیری بشه.   
-
-<a dir="ltr" href="mailto:noahopentranslate@gmail.com">noahopentranslate@gmail.com</a>
  
 ## بخش های ترجمه شده
 
-ممکنه لینک ها خراب باشند و ...
-بهتره کتاب رو از سایت زیر بخونید:
-
-https://codetamiz.vercel.app/
-
-
-* [0_مقدمه](0_introduction(completed)/introduction.md)
   * [0_مقدمه](0_introduction(completed)/introduction.md)
 * [1_کد تمیز](1_Clean_Code(completed)/clean-code.md)
 
