@@ -8,7 +8,6 @@
 
 یادم میاد در اواسط دهه 90 داشتم یک برنامه با زبان ++C برای یک سیستم نهفته می نوشتم. برنامه یک تایمر ساده به شرح زیر بود:
 
-
 `void Timer::ScheduleCommand(Command* theCommand, int milliseconds)`
 
 الگوریتم کار ساده بود، متد execute از آبجکت command باید بعد از گذشت چند میلی ثانیه مشخص داخل یک ترد جدید فراخوانی می شد. اما مشکل اصلی این بود که چه طور باید این الگوریتم را تست کنیم.
@@ -66,4 +65,196 @@
 
  چه چیزی یک تست تمیز را می سازد؟سه چیز:خوانایی،خوانایی و خوانایی.خوانایی شاید در آزمون های واحد مهم تر از کد تولید باشد.چه چیزی یک آزمون را خوانا می کند؟همان چیزی که همه کدها را قابل خواندن می کند :در یک آزمون شما می خواهید با کمترین عبارات ممکن چیزهای زیادی بگویید.
 <br />
-کد FitNesse را در فهرست 9-1 در نظر بگیرید. درک این سه تست دشوار است و مطمئناً قابل بهبود هستند. اول، مقدار وحشتناکی از کد تکراری [G5] در تماس های مکرر به addPage و assertSubString وجود دارد. مهمتر از آن، این کد فقط با جزئیاتی بارگذاری شده است که با بیان آزمون تداخل دارد. 
+کد FitNesse را در فهرست 9-1 در نظر بگیرید. درک این سه آزمون دشوار است و مطمئناً قابل بهبود هستند. اول، مقدار وحشتناکی از کد تکراری [G5] در تماس های مکرر به addPage و assertSubString وجود دارد. مهمتر از آن، این کد فقط با جزئیاتی بارگذاری شده است که با بیان آزمون تداخل دارد. 
+<br />
+
+Listing 9-1
+
+SerializedPageResponderTest.java
+
+public void testGetPageHieratchyAsXml() throws Exception
+{
+crawler.addPage(root, PathParser.parse("PageOne"));
+crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
+crawler.addPage(root, PathParser.parse("PageTwo"));
+request.setResource("root");
+request.addInput("type", "pages");
+Responder responder = new SerializedPageResponder();
+SimpleResponse response =
+(SimpleResponse) responder.makeResponse(
+new FitNesseContext(root), request);
+String xml = response.getContent();
+assertEquals("text/xml", response.getContentType());
+assertSubString("<name>PageOne</name>", xml);
+assertSubString("<name>PageTwo</name>", xml);
+assertSubString("<name>ChildOne</name>", xml);
+}
+public void testGetPageHieratchyAsXmlDoesntContainSymbolicLinks()
+throws Exception
+{
+WikiPage pageOne = crawler.addPage(root, PathParser.parse("PageOne"));
+crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
+crawler.addPage(root, PathParser.parse("PageTwo"));
+PageData data = pageOne.getData();
+WikiPageProperties properties = data.getProperties();
+WikiPageProperty symLinks = properties.set(SymbolicPage.PROPERTY_NAME);
+symLinks.set("SymPage", "PageTwo");
+pageOne.commit(data);
+request.setResource("root");
+request.addInput("type", "pages");
+Responder responder = new SerializedPageResponder();
+SimpleResponse response =
+(SimpleResponse) responder.makeResponse(
+new FitNesseContext(root), request);
+String xml = response.getContent();
+assertEquals("text/xml", response.getContentType());
+assertSubString("<name>PageOne</name>", xml);
+assertSubString("<name>PageTwo</name>", xml);
+assertSubString("<name>ChildOne</name>", xml);
+assertNotSubString("SymPage", xml);
+}
+public void testGetDataAsHtml() throws Exception
+{
+crawler.addPage(root, PathParser.parse("TestPageOne"), "test page");
+request.setResource("TestPageOne");
+request.addInput("type", "data");
+Responder responder = new SerializedPageResponder();
+SimpleResponse response =
+(SimpleResponse) responder.makeResponse(
+new FitNesseContext(root), request);
+String xml = response.getContent();
+assertEquals("text/xml", response.getContentType());
+assertSubString("test page", xml);
+assertSubString("<Test", xml);
+}
+
+<br />
+به عنوان مثال به فراخوانی های PathParser نگاه کنید.آن ها رشته ها را به نمونه های PathPage  تبدیل می کنند که توسط crawler استفاده می شود. این تبدیل کاملاً بی ربط به آزمون حاضر است و فقط هدف را مبهم  می کند. جزئیات مربوط به ایجاد پاسخ دهنده و جمع آوری و ریخته گری پاسخ نیز فقط نویز است. سپس راهی وجود دارد که URL درخواست از یک منبع و یک آرگومان ساخته می شود. )من به نوشتن این کد کمک کردم، بنابراین می توانم به طور کامل از آن انتقاد کنم).
+<br />
+در نهایت این کد برای خواندن طراحی نشده است.خواننده کم تجربه با انبوهی از جزییات مواجه می شود که قبل از اینکه آزمون ها واقعی شوند ( اجرایی شوند ) باید درک شوند.
+<br />
+در نهایت این کد برای خواندن طراحی نشده است.خواننده کم تجربه با انبوهی از جزییات مواجه می شود که قبل از اینکه آزمون ها واقعی شوند ( اجرایی شوند ) باید درک شوند. اکنون آزمون های بهبود یافته در فهرست 9-2 را در نظر بگیرید.
+این آزمون ها دقیقاً همین کار را انجام می‌دهند، اما به شکلی بسیار تمیزتر و واضح تر تبدیل شده‌اند.
+<br />
+
+Listing 9-2
+
+SerializedPageResponderTest.java (refactored)
+
+public void testGetPageHierarchyAsXml() throws Exception {
+makePages("PageOne", "PageOne.ChildOne", "PageTwo");
+submitRequest("root", "type:pages");
+assertResponseIsXML();
+assertResponseContains(
+"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>"
+);
+}
+public void testSymbolicLinksAreNotInXmlPageHierarchy() throws Exception {
+WikiPage page = makePage("PageOne");
+makePages("PageOne.ChildOne", "PageTwo");
+addLinkTo(page, "PageTwo", "SymPage");
+submitRequest("root", "type:pages");
+assertResponseIsXML();
+assertResponseContains(
+"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>"
+);
+assertResponseDoesNotContain("SymPage");
+}
+
+public void testGetDataAsXml() throws Exception {
+makePageWithContent("TestPageOne", "test page");
+submitRequest("TestPageOne", "type:data");
+assertResponseIsXML();
+assertResponseContains("
+}
+
+<br />
+الگوی BUILD-OPERATE-CHECK2 با ساختار این تست ها آشکار می شود. هر یک از آزمون ها به وضوح به سه بخش تقسیم می شوند.
+بخش اول داده های آزمون را می سازد ، بخش دوم روی آن داده های آزمایشی کار می کند و بخش سوم برررسی می کند که آیا عملیات نتایج مرود انتظار را به همراه داشته است .
+<br />
+توجه داشته باشید که بیشترجزییات آزاردهنده (مشکل ساز) حذف شده اند. تست ها دقیقاً به نقطه اصلی می رسند و فقط از داده ها و توابعی استفاده می کنند که واقعاً به آنها نیاز دارند. هر کسی که این آزمون‌ ها را می‌خواند باید بتواند کارهایی را که انجام می‌دهد خیلی سریع بدون اشتباه یا بدون دقت در جزئیات انجام دهد.
+<br />
+
+## زبان آزمون دامنه خاص
+
+آزمون ‌های فهرست 9-2 تکنیک ساخت یک زبان دامنه خاص برای آزمون‌های شما را نشان می‌دهند. به‌جای استفاده از APIهایی که برنامه‌نویسان برای دستکاری سیستم استفاده می‌کنند، مجموعه‌ای از توابع و ابزارهای کاربردی ایجاد می‌کنیم که از آن APIها استفاده می‌کنند و تست‌ها را برای نوشتن راحت‌تر و خواندن آسان‌تر می‌کنند. این توابع و ابزارهای کاربردی تبدیل به یک API تخصصی می شوند که توسط آزمون ها استفاده می شود. آنها یک زبان آزمون هستند که برنامه نویسان برای کمک به خودشان در نوشتن آزمون ها و برای کمک به کسانی که بعداً باید آن آزمون ها را بخوانند از آن استفاده می کنند.
+<br />
+این API آزمایشی از قبل طراحی نشده است. بلکه از بازسازی مداوم کد آزمون که بیش از حد با جزئیات مبهم شده است، به وجود آمده است همانطور که دیدید من لیست 9-1 را به لیست 9-2 تغییر می دهم، توسعه دهندگان منظم تر نیز کد آزمون خود را به شکل های مختصر و گویا تر تغییر می دهند.
+
+## یک استاندارد دوگانه 
+
+از طرفی تیمی که در ابتدای فصل به آن اشاره کردم شرایط درستی داشت. کد موجود در API آزمایشی دارای مجموعه‌ای از استانداردهای مهندسی متفاوت از کد تولید است. هنوز هم باید ساده، مختصر و گویا باشد، اما لازم نیست به اندازه کد تولید کارآمد باشد. به هر حال، در یک محیط آزمون اجرا می شود، نه یک محیط تولید، و این دو محیط نیازهای بسیار متفاوتی  دارند.
+<br />
+آزمون فهرست 9-3 را در نظر بگیرید. من این آزمون را به عنوان بخشی از یک سیستم کنترل محیط  که در حال ساخت نمونه اولیه بودم نوشتم.
+بدون پرداختن به جزئیات، می‌توانید بگویید که این آزمایش بررسی می‌کند که هشدار دمای پایین، بخاری و دمنده همگی در زمانی که دما «خیلی پایین است» روشن می‌شوند.
+<br />
+
+Listing 9-3
+
+EnvironmentControllerTest.java
+
+@Test
+public void turnOnLoTempAlarmAtThreashold() throws Exception {
+hw.setTemp(WAY_TOO_COLD);
+controller.tic();
+assertTrue(hw.heaterState());
+assertTrue(hw.blowerState());
+assertFalse(hw.coolerState());
+assertFalse(hw.hiTempAlarm());
+assertTrue(hw.loTempAlarm());
+}
+
+<br />
+البته در اینجا جزئیات زیادی وجود دارد. به عنوان مثال، آن تابع tic در مورد چیست؟ در واقع، ترجیح می‌دهم هنگام خواندن این آزمون نگران این موضوع نباشید. ترجیح می‌دهم فقط نگران این باشید که آیا موافقید که وضعیت پایانی سیستم با "خیلی سرد بودن" دما مطابقت دارد یا خیر.
+<br />
+البته در اینجا جزئیات زیادی وجود دارد. به عنوان مثال، آن تابع tic در مورد چیست؟ در واقع، ترجیح می‌دهم هنگام خواندن این آزمون نگران این موضوع نباشید. ترجیح می‌دهم فقط نگران این باشید که آیا موافقید که وضعیت پایانی سیستم با "خیلی سرد بودن" دما مطابقت دارد یا خیر. توجه کنید، همانطور که آزمون را می خوانید، چشم شما باید بین نام حالتی که بررسی می شود و وضعیت حالتی که بررسی می شود به عقب و جلو بچرخد. HeaterState را می بینید، و سپس چشمان شما به سمت چپ می رود تا به عنوان "True" اعلام شود. شما coolerState را می بینید و چشمان شما باید سمت چپ را دنبال کند تا assertFalse شود. این خسته کننده و نا مطمئن است و خواندن آزمون را سخت می کند.
+<br />
+من خواندن این آزمون را با تبدیل آن به لیست 9-4 بسیار بهبود دادم.
+<br />
+
+Listing 9-4
+
+EnvironmentControllerTest.java (refactored)
+
+@Test
+public void turnOnLoTempAlarmAtThreshold() throws Exception {
+wayTooCold();
+assertEquals("HBchL", hw.getState());
+}
+
+<br />
+
+
+البته من جزئیات تابع tic را با ایجاد یک تابع wayTooCold پنهان کردم. اما نکته ای که باید به آن توجه کرد رشته عجیب در assertEquals است. حروف بزرگ به معنی روشن، حروف کوچک به معنی خاموش و حروف همیشه به ترتیب زیر هستند: 
+{heater, blower, cooler,hi-temp-alarm, lo-temp-alarm}.
+<br />
+اگرچه این امر شبیه به یک تجسم ذهنی است، در این مورد مناسب به نظر می رسد. توجه کنید، هنگامی که متوجه آن باشید، چشمانتان به سمت آن سر می خورد آن رشته و شما می توانید به سرعت نتایج را تفسیر کنید. خواندن تست تقریباً به یک لذت تبدیل می شود. فقط نگاهی به لیست 9-5 بیندازید و ببینید درک این تست ها چقدر آسان است.
+<br />
+
+Listing 9-5
+
+EnvironmentControllerTest.java (bigger selection)
+
+@Test
+public void turnOnCoolerAndBlowerIfTooHot() throws Exception {
+tooHot();
+assertEquals("hBChl", hw.getState());
+}
+@Test
+public void turnOnHeaterAndBlowerIfTooCold() throws Exception {
+tooCold();
+assertEquals("HBchl", hw.getState());
+}
+@Test
+public void turnOnHiTempAlarmAtThreshold() throws Exception {
+wayTooHot();
+assertEquals("hBCHl", hw.getState());
+}
+@Test
+public void turnOnLoTempAlarmAtThreshold() throws Exception {
+wayTooCold();
+assertEquals("HBchL", hw.getState());
+}
+
+
+
