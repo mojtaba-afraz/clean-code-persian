@@ -142,30 +142,53 @@ Listing 9-2
 SerializedPageResponderTest.java (refactored)
 
 `public void testGetPageHierarchyAsXml() throws Exception {
+<br />
 makePages("PageOne", "PageOne.ChildOne", "PageTwo");
-submitRequest("root", "type:pages");
-assertResponseIsXML();
-assertResponseContains(
-"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>"
-);
-}
-public void testSymbolicLinksAreNotInXmlPageHierarchy() throws Exception {
-WikiPage page = makePage("PageOne");
-makePages("PageOne.ChildOne", "PageTwo");
-addLinkTo(page, "PageTwo", "SymPage");
-submitRequest("root", "type:pages");
-assertResponseIsXML();
-assertResponseContains(
-"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>"
-);
-assertResponseDoesNotContain("SymPage");
-}
+<br />
 
-public void testGetDataAsXml() throws Exception {
-makePageWithContent("TestPageOne", "test page");
-submitRequest("TestPageOne", "type:data");
+submitRequest("root", "type:pages");
+<br />
 assertResponseIsXML();
+<br />
+
+assertResponseContains(
+<br />
+
+"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>");
+<br />
+}
+<br />
+
+public void testSymbolicLinksAreNotInXmlPageHierarchy() throws Exception {
+<br />
+WikiPage page = makePage("PageOne");
+<br />
+makePages("PageOne.ChildOne", "PageTwo");
+<br />
+addLinkTo(page, "PageTwo", "SymPage");
+<br />
+submitRequest("root", "type:pages");
+<br />
+assertResponseIsXML();
+<br />
+assertResponseContains(
+<br />
+"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>");
+<br />
+assertResponseDoesNotContain("SymPage");
+<br />
+}`
+
+`public void testGetDataAsXml() throws Exception {
+<br />
+makePageWithContent("TestPageOne", "test page");
+<br />
+submitRequest("TestPageOne", "type:data");
+<br />
+assertResponseIsXML();
+<br />
 assertResponseContains("
+<br />
 }`
 
 <br />
