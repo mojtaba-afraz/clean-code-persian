@@ -72,7 +72,7 @@ Listing 9-1
 
 SerializedPageResponderTest.java
 
-public void testGetPageHieratchyAsXml() throws Exception
+`public void testGetPageHieratchyAsXml() throws Exception
 {
 crawler.addPage(root, PathParser.parse("PageOne"));
 crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
@@ -126,7 +126,7 @@ String xml = response.getContent();
 assertEquals("text/xml", response.getContentType());
 assertSubString("test page", xml);
 assertSubString("<Test", xml);
-}
+}`
 
 <br />
 به عنوان مثال به فراخوانی های PathParser نگاه کنید.آن ها رشته ها را به نمونه های PathPage  تبدیل می کنند که توسط crawler استفاده می شود. این تبدیل کاملاً بی ربط به آزمون حاضر است و فقط هدف را مبهم  می کند. جزئیات مربوط به ایجاد پاسخ دهنده و جمع آوری و ریخته گری پاسخ نیز فقط نویز است. سپس راهی وجود دارد که URL درخواست از یک منبع و یک آرگومان ساخته می شود. )من به نوشتن این کد کمک کردم، بنابراین می توانم به طور کامل از آن انتقاد کنم).
@@ -141,7 +141,7 @@ Listing 9-2
 
 SerializedPageResponderTest.java (refactored)
 
-public void testGetPageHierarchyAsXml() throws Exception {
+`public void testGetPageHierarchyAsXml() throws Exception {
 makePages("PageOne", "PageOne.ChildOne", "PageTwo");
 submitRequest("root", "type:pages");
 assertResponseIsXML();
@@ -166,7 +166,7 @@ makePageWithContent("TestPageOne", "test page");
 submitRequest("TestPageOne", "type:data");
 assertResponseIsXML();
 assertResponseContains("
-}
+}`
 
 <br />
 الگوی BUILD-OPERATE-CHECK2 با ساختار این تست ها آشکار می شود. هر یک از آزمون ها به وضوح به سه بخش تقسیم می شوند.
@@ -193,7 +193,7 @@ Listing 9-3
 
 EnvironmentControllerTest.java
 
-@Test
+`@Test
 public void turnOnLoTempAlarmAtThreashold() throws Exception {
 hw.setTemp(WAY_TOO_COLD);
 controller.tic();
@@ -202,7 +202,7 @@ assertTrue(hw.blowerState());
 assertFalse(hw.coolerState());
 assertFalse(hw.hiTempAlarm());
 assertTrue(hw.loTempAlarm());
-}
+}`
 
 <br />
 البته در اینجا جزئیات زیادی وجود دارد. به عنوان مثال، آن تابع tic در مورد چیست؟ در واقع، ترجیح می‌دهم هنگام خواندن این آزمون نگران این موضوع نباشید. ترجیح می‌دهم فقط نگران این باشید که آیا موافقید که وضعیت پایانی سیستم با "خیلی سرد بودن" دما مطابقت دارد یا خیر.
@@ -212,7 +212,7 @@ assertTrue(hw.loTempAlarm());
 من خواندن این آزمون را با تبدیل آن به لیست 9-4 بسیار بهبود دادم.
 <br />
 
-Listing 9-4
+`Listing 9-4
 
 EnvironmentControllerTest.java (refactored)
 
@@ -220,13 +220,13 @@ EnvironmentControllerTest.java (refactored)
 public void turnOnLoTempAlarmAtThreshold() throws Exception {
 wayTooCold();
 assertEquals("HBchL", hw.getState());
-}
+}`
 
 <br />
 
 
 البته من جزئیات تابع tic را با ایجاد یک تابع wayTooCold پنهان کردم. اما نکته ای که باید به آن توجه کرد رشته عجیب در assertEquals است. حروف بزرگ به معنی روشن، حروف کوچک به معنی خاموش و حروف همیشه به ترتیب زیر هستند: 
-{heater, blower, cooler,hi-temp-alarm, lo-temp-alarm}.
+`{heater, blower, cooler,hi-temp-alarm, lo-temp-alarm}`.
 <br />
 اگرچه این امر شبیه به یک تجسم ذهنی است، در این مورد مناسب به نظر می رسد. توجه کنید، هنگامی که متوجه آن باشید، چشمانتان به سمت آن سر می خورد آن رشته و شما می توانید به سرعت نتایج را تفسیر کنید. خواندن تست تقریباً به یک لذت تبدیل می شود. فقط نگاهی به لیست 9-5 بیندازید و ببینید درک این تست ها چقدر آسان است.
 <br />
@@ -235,7 +235,7 @@ Listing 9-5
 
 EnvironmentControllerTest.java (bigger selection)
 
-@Test
+`@Test
 public void turnOnCoolerAndBlowerIfTooHot() throws Exception {
 tooHot();
 assertEquals("hBChl", hw.getState());
@@ -254,7 +254,7 @@ assertEquals("hBCHl", hw.getState());
 public void turnOnLoTempAlarmAtThreshold() throws Exception {
 wayTooCold();
 assertEquals("HBchL", hw.getState());
-}
+}`
 
 
 
