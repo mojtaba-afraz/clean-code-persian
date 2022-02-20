@@ -72,8 +72,7 @@ Listing 9-1
 
 SerializedPageResponderTest.java
 
-`public void testGetPageHieratchyAsXml() throws Exception
-{
+`public void testGetPageHieratchyAsXml() throws Exception{<br />
 crawler.addPage(root, PathParser.parse("PageOne"));
 crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
 crawler.addPage(root, PathParser.parse("PageTwo"));
@@ -141,54 +140,29 @@ Listing 9-2
 
 SerializedPageResponderTest.java (refactored)
 
-`public void testGetPageHierarchyAsXml() throws Exception {
-<br />
-makePages("PageOne", "PageOne.ChildOne", "PageTwo");
-<br />
+`public void testGetPageHierarchyAsXml() throws Exception {<br />
+makePages("PageOne", "PageOne.ChildOne", "PageTwo");<br />
+submitRequest("root", "type:pages");<br />
+assertResponseIsXML();<br />
+assertResponseContains(<br />
+"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>")<br />
+}`<br />
+`public void testSymbolicLinksAreNotInXmlPageHierarchy() throws Exception {<br />
+WikiPage page = makePage("PageOne");<br />
+makePages("PageOne.ChildOne", "PageTwo");<br />
+addLinkTo(page, "PageTwo", "SymPage");<br />
+submitRequest("root", "type:pages");<br />
+assertResponseIsXML();<br />
+assertResponseContains(<br />
+"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>");<br />
+assertResponseDoesNotContain("SymPage");<br />
+}`<br />
 
-submitRequest("root", "type:pages");
-<br />
-assertResponseIsXML();
-<br />
-
-assertResponseContains(
-<br />
-
-"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>");
-<br />
-}
-<br />
-
-public void testSymbolicLinksAreNotInXmlPageHierarchy() throws Exception {
-<br />
-WikiPage page = makePage("PageOne");
-<br />
-makePages("PageOne.ChildOne", "PageTwo");
-<br />
-addLinkTo(page, "PageTwo", "SymPage");
-<br />
-submitRequest("root", "type:pages");
-<br />
-assertResponseIsXML();
-<br />
-assertResponseContains(
-<br />
-"<name>PageOne</name>", "<name>PageTwo</name>", "<name>ChildOne</name>");
-<br />
-assertResponseDoesNotContain("SymPage");
-<br />
-}`
-
-`public void testGetDataAsXml() throws Exception {
-<br />
-makePageWithContent("TestPageOne", "test page");
-<br />
-submitRequest("TestPageOne", "type:data");
-<br />
-assertResponseIsXML();
-<br />
-assertResponseContains("
-<br />
+`public void testGetDataAsXml() throws Exception {<br />
+makePageWithContent("TestPageOne", "test page");<br />
+submitRequest("TestPageOne", "type:data");<br />
+assertResponseIsXML();<br />
+assertResponseContains("<br />
 }`
 
 <br />
@@ -217,14 +191,14 @@ Listing 9-3
 EnvironmentControllerTest.java
 
 `@Test
-public void turnOnLoTempAlarmAtThreashold() throws Exception {
-hw.setTemp(WAY_TOO_COLD);
-controller.tic();
-assertTrue(hw.heaterState());
-assertTrue(hw.blowerState());
-assertFalse(hw.coolerState());
-assertFalse(hw.hiTempAlarm());
-assertTrue(hw.loTempAlarm());
+public void turnOnLoTempAlarmAtThreashold() throws Exception {<br />
+hw.setTemp(WAY_TOO_COLD);<br />
+controller.tic();<br />
+assertTrue(hw.heaterState());<br />
+assertTrue(hw.blowerState());<br />
+assertFalse(hw.coolerState());<br />
+assertFalse(hw.hiTempAlarm());<br />
+assertTrue(hw.loTempAlarm());<br />
 }`
 
 <br />
@@ -239,10 +213,10 @@ assertTrue(hw.loTempAlarm());
 
 EnvironmentControllerTest.java (refactored)
 
-@Test
-public void turnOnLoTempAlarmAtThreshold() throws Exception {
-wayTooCold();
-assertEquals("HBchL", hw.getState());
+@Test<br />
+public void turnOnLoTempAlarmAtThreshold() throws Exception {<br />
+wayTooCold();<br />
+assertEquals("HBchL", hw.getState());<br />
 }`
 
 <br />
@@ -257,27 +231,52 @@ assertEquals("HBchL", hw.getState());
 Listing 9-5
 
 EnvironmentControllerTest.java (bigger selection)
+<br />
+`@Test<br />
+public void turnOnCoolerAndBlowerIfTooHot() throws Exception {<br />
+tooHot();<br />
+assertEquals("hBChl", hw.getState());<br />
+}<br />
+@Test<br />
+public void turnOnHeaterAndBlowerIfTooCold() throws Exception {<br />
+tooCold();<br />
+assertEquals("HBchl", hw.getState());<br />
+}<br />
+@Test<br />
+public void turnOnHiTempAlarmAtThreshold() throws Exception {<br />
+wayTooHot();<br />
+assertEquals("hBCHl", hw.getState());<br />
+}<br />
+@Test<br />
+public void turnOnLoTempAlarmAtThreshold() throws Exception {<br />
+wayTooCold();<br />
+assertEquals("HBchL", hw.getState());<br />
+}`<br />
 
-`@Test
-public void turnOnCoolerAndBlowerIfTooHot() throws Exception {
-tooHot();
-assertEquals("hBChl", hw.getState());
-}
-@Test
-public void turnOnHeaterAndBlowerIfTooCold() throws Exception {
-tooCold();
-assertEquals("HBchl", hw.getState());
-}
-@Test
-public void turnOnHiTempAlarmAtThreshold() throws Exception {
-wayTooHot();
-assertEquals("hBCHl", hw.getState());
-}
-@Test
-public void turnOnLoTempAlarmAtThreshold() throws Exception {
-wayTooCold();
-assertEquals("HBchL", hw.getState());
-}`
+<br />
+تابع getState در لیست Listing 9-6 نشان داده شده است.توجه کنید که کد خیلی کارآمد نیست و برای اینکه آن را کارآمد کنیم احتمالا باید StringBuffer  را استفاده کنیم.
+<br />
 
+Listing 9-6
+<br />
+MockControlHardware.java
+
+public String getState() {<br />
+String state = "";<br />
+state += heater ? "H" : "h";<br />
+state += blower ? "B" : "b";<br />
+state += cooler ? "C" : "c";<br />
+state += hiTempAlarm ? "H" : "h";<br />
+state += loTempAlarm ? "L" : "l";<br />
+return state;<br />
+}<br />
+
+<br />
+StringBuffer  ها کمی نازیبا هستند.حتی اگر هزینه در کد تولید  بسیار کم باشد من از آن ها اجتناب می کنم و می توانید استدلال کنید که هزینه در کد در لیست  6-9 بسیار ناچیز است به هر حال این اپلیکیشن یک سیستم بلادرنگ تعبیه شده است و به نظر می رسد منابع رایانه و حافظه بسیار محدود هستند. محیط آزمون به احتمال زیاد اصلا محدود نیست.
+<br />
+این طبیعت استاندارد دوگانه است. در محیط آزمون چیزهایی وجود دارند که ممکن است شما در محیط تولید انجام ندهید اما در محیط آزمون بسیار خوب هستند.معمولا آن ها مسائل مربوط به حافظه و کارایی پردازنده را شامل می شوند.اما آن ها هرگز مسائل تمیزی کد را شامل نمی شوند. 
+<br />
+
+## یک ادعا در آزمون
 
 
