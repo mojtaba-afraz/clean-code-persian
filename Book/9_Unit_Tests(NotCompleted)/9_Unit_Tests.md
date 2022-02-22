@@ -72,60 +72,60 @@ Listing 9-1
 
 SerializedPageResponderTest.java
 
-`public void testGetPageHieratchyAsXml() throws Exception{<br />
-crawler.addPage(root, PathParser.parse("PageOne"));
-crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
-crawler.addPage(root, PathParser.parse("PageTwo"));
-request.setResource("root");
-request.addInput("type", "pages");
-Responder responder = new SerializedPageResponder();
-SimpleResponse response =
-(SimpleResponse) responder.makeResponse(
-new FitNesseContext(root), request);
-String xml = response.getContent();
-assertEquals("text/xml", response.getContentType());
-assertSubString("<name>PageOne</name>", xml);
-assertSubString("<name>PageTwo</name>", xml);
-assertSubString("<name>ChildOne</name>", xml);
+public void testGetPageHieratchyAsXml() throws Exception{<br />
+crawler.addPage(root, PathParser.parse("PageOne"));<br />
+crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));<br />
+crawler.addPage(root, PathParser.parse("PageTwo"));<br />
+request.setResource("root");<br />
+request.addInput("type", "pages");<br />
+Responder responder = new SerializedPageResponder();<br />
+SimpleResponse response =<br />
+(SimpleResponse) responder.makeResponse(<br />
+new FitNesseContext(root), request);<br />
+String xml = response.getContent();<br />
+assertEquals("text/xml", response.getContentType());<br />
+assertSubString("<name>PageOne</name>", xml);<br />
+assertSubString("<name>PageTwo</name>", xml);<br />
+assertSubString("<name>ChildOne</name>", xml);<br />
+}<br />
+public void testGetPageHieratchyAsXmlDoesntContainSymbolicLinks()<br />
+throws Exception<br />
+{<br />
+WikiPage pageOne = crawler.addPage(root, PathParser.parse("PageOne"));<br />
+crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));<br />
+crawler.addPage(root, PathParser.parse("PageTwo"));<br />
+PageData data = pageOne.getData();<br />
+WikiPageProperties properties = data.getProperties();<br />
+WikiPageProperty symLinks = properties.set(SymbolicPage.PROPERTY_NAME);<br />
+symLinks.set("SymPage", "PageTwo");<br />
+pageOne.commit(data);<br />
+request.setResource("root");<br />
+request.addInput("type", "pages");<br />
+Responder responder = new SerializedPageResponder();<br />
+SimpleResponse response =<br />
+(SimpleResponse) responder.makeResponse(<br />
+new FitNesseContext(root), request);<br />
+String xml = response.getContent();<br />
+assertEquals("text/xml", response.getContentType());<br />
+assertSubString("<name>PageOne</name>", xml);<br />
+assertSubString("<name>PageTwo</name>", xml);<br />
+assertSubString("<name>ChildOne</name>", xml);<br />
+assertNotSubString("SymPage", xml);<br />
+}<br />
+public void testGetDataAsHtml() throws Exception<br />
+{<br />
+crawler.addPage(root, PathParser.parse("TestPageOne"), "test page");<br />
+request.setResource("TestPageOne");<br />
+request.addInput("type", "data");<br />
+Responder responder = new SerializedPageResponder();<br />
+SimpleResponse response =<br />
+(SimpleResponse) responder.makeResponse(<br />
+new FitNesseContext(root), request);<br />
+String xml = response.getContent();<br />
+assertEquals("text/xml", response.getContentType());<br />
+assertSubString("test page", xml);<br />
+assertSubString("Test", xml); <br />
 }
-public void testGetPageHieratchyAsXmlDoesntContainSymbolicLinks()
-throws Exception
-{
-WikiPage pageOne = crawler.addPage(root, PathParser.parse("PageOne"));
-crawler.addPage(root, PathParser.parse("PageOne.ChildOne"));
-crawler.addPage(root, PathParser.parse("PageTwo"));
-PageData data = pageOne.getData();
-WikiPageProperties properties = data.getProperties();
-WikiPageProperty symLinks = properties.set(SymbolicPage.PROPERTY_NAME);
-symLinks.set("SymPage", "PageTwo");
-pageOne.commit(data);
-request.setResource("root");
-request.addInput("type", "pages");
-Responder responder = new SerializedPageResponder();
-SimpleResponse response =
-(SimpleResponse) responder.makeResponse(
-new FitNesseContext(root), request);
-String xml = response.getContent();
-assertEquals("text/xml", response.getContentType());
-assertSubString("<name>PageOne</name>", xml);
-assertSubString("<name>PageTwo</name>", xml);
-assertSubString("<name>ChildOne</name>", xml);
-assertNotSubString("SymPage", xml);
-}
-public void testGetDataAsHtml() throws Exception
-{
-crawler.addPage(root, PathParser.parse("TestPageOne"), "test page");
-request.setResource("TestPageOne");
-request.addInput("type", "data");
-Responder responder = new SerializedPageResponder();
-SimpleResponse response =
-(SimpleResponse) responder.makeResponse(
-new FitNesseContext(root), request);
-String xml = response.getContent();
-assertEquals("text/xml", response.getContentType());
-assertSubString("test page", xml);
-assertSubString("<Test", xml);
-}`
 
 <br />
 به عنوان مثال به فراخوانی های PathParser نگاه کنید.آن ها رشته ها را به نمونه های PathPage  تبدیل می کنند که توسط crawler استفاده می شود. این تبدیل کاملاً بی ربط به آزمون حاضر است و فقط هدف را مبهم  می کند. جزئیات مربوط به ایجاد پاسخ دهنده و جمع آوری و ریخته گری پاسخ نیز فقط نویز است. سپس راهی وجود دارد که URL درخواست از یک منبع و یک آرگومان ساخته می شود. )من به نوشتن این کد کمک کردم، بنابراین می توانم به طور کامل از آن انتقاد کنم).
