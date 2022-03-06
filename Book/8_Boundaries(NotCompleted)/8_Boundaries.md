@@ -1,65 +1,71 @@
-![](img-8.1.png) 
+![](img-8.1.png)
 
-We seldom control all the software in our systems. Sometimes we buy third-party pack-
-ages or use open source. Other times we depend on teams in our own company to produce
-components or subsystems for us. Somehow we must cleanly integrate this foreign code with our own. In this chapter we look at practices and techniques to keep the boundaries of
-our software clean.
-# Using Third-Party Code
-There is a natural tension between the provider of an interface and the user of an interface.
-Providers of third-party packages and frameworks strive for broad applicability so they
-can work in many environments and appeal to a wide audience. Users, on the other hand,
-want an interface that is focused on their particular needs. This tension can cause problems
-at the boundaries of our systems.
-Let’s look at java.util.Map as an example. As you can see by examining Figure 8-1,
-Maps have a very broad interface with plenty of capabilities. Certainly this power and flexi-
-bility is useful, but it can also be a liability. For instance, our application might build up a
-Map and pass it around. Our intention might be that none of the recipients of our Map delete
-anything in the map. But right there at the top of the list is the clear() method. Any user of
-the Map has the power to clear it. Or maybe our design convention is that only particular
-types of objects can be stored in the Map, but Maps do not reliably constrain the types of
-objects placed within them. Any determined user can add items of any type to any Map.
+# مرزها
+<div dir="rtl">
+اینکه ما بر روی تمام نرم افزارهای سیستم تسلط داشته باشیم و همه را خودمان توسعه داده باشیم تقریبا غیر ممکن است. به همین خاطر بسته‌های نرم افزاری را خریداری می‌کنیم(Third-party Packages) یا از نرم افزارهای متن‌باز استفاده می‌کنیم. مواقعی هم هست که از تیم‌های دیگر که در شرکت هستند می‌خواهیم که یک کامپوننت یا زیرسیستم را برای ما توسعه دهند. مسئله‌ای که در اینجا مطرح می‌شود یکپارچه کردن این نرم‌افزارها با سیستم و کدهای خودمان است. در این فصل به شیوه‌ها و تکنیک‌هایی که کمک می‌کنند تا مرزهای کد خود را مشخص کنیم و آنها را تمیز نگه‌ داریم می‌پردازیم.
+</div>
 
+# استفاده از کدهای third-party
 
-• clear() void – Map
-• containsKey(Object key) boolean – Map
-• containsValue(Object value) boolean – Map
-• entrySet() Set – Map
-• equals(Object o) boolean – Map
-• get(Object key) Object – Map
-• getClass() Class<? extends Object> – Object
-• hashCode() int – Map
-• isEmpty() boolean – Map
-• keySet() Set – Map
-• notify() void – Object
-• notifyAll() void – Object
-• put(Object key, Object value) Object – Map
-• putAll(Map t) void – Map
-• remove(Object key) Object – Map
-• size() int – Map
-• toString() String – Object
-• values() Collection – Map
-• wait() void – Object
-• wait(long timeout) void – Object
-• wait(long timeout, int nanos) void – Object
+<div dir="rtl">
+بین توسعه‌دهندگان و استفاده کنندگان یک رابط کاربری(API) معمولا تنش‌های زیادی وجود دارد.
+توسعه‌دهندگان کتابخانه‌ها و بسته‌های نرم‌افزاری تلاش می‌کنند تا آنها را طوری توسعه دهند که در طیف گسترده‌ای از نرم‌افزارها و چالش‌ها قابل استفاده باشند و بتوانند استفاده کنندگان و کاربران بسیاری را برای محصولات خود جذب کنند.
+در سوی دیگر کاربرانی که قصد استفاده از این نرم افزارها را دارند به کدها و بسته‌هایی نیاز دارند که دقیقا بر روی نیاز آنها تمرکز کرده باشد و به موارد دیگر نپردازد. این تنش باعث مشکلات زیادی در اسکوپ سیستم می‌شود.
+به عنوان یک مثال بیایید نگاهی به java.util.Map به داشته باشیم.
+همانطور که در در تصویر لیست  8-1 می‌توانید ببینید، Map ها تعداد بسیار زیادی رابط دارند که باعث می‌شوند گستره استفاده وسیعی نیز داشته باشند. مطمئنا این انعطاف و قدرت می‌تواند بسیار مفید باشد اما همزمان می‌تواند یک نقص نیز به شمار آید.
+بگذارید با یک مثال این مسئله را روشن کنیم:
+فرض کنید ما یک برنامه داریم که یک Map را می‌سازد و آن را ارسال می‌کند. هدف ما این است که هیچ کدام از گیرندگان اجازه و توانایی حذف هیچ عضوی از این Map را نداشته باشد. اما  همانطور که در لیست زیر می‌بینید تابع ()clear این قابلیت را در اختیار گیرندگان قرار می‌دهد تا بتوانند عضوی را حذف کنند.
+یا در مثالی دیگر، ما می‌خواهیم تنها انواع(Type) خاصی از اشیا بتوانند به Map اضافه شوند، اما هیچ راه مطئمنی برای محدود کردن انواع وجود ندارد و هر کاربری می‌تواند هر نوعی را به یک Map اضافه کند. <br/>
+لیست 8-1:
+    </div>
+    <br/>
+• clear() void – Map <br />
+• containsKey(Object key) boolean – Map <br />
+• containsValue(Object value) boolean – Map <br />
+• entrySet() Set – Map <br />
+• equals(Object o) boolean – Map <br />
+• get(Object key) Object – Map <br />
+• getClass() Class<? extends Object> – Object <br />
+• hashCode() int – Map <br />
+• isEmpty() boolean – Map <br />
+• keySet() Set – Map <br />
+• notify() void – Object <br />
+• notifyAll() void – Object <br />
+• put(Object key, Object value) Object – Map <br />
+• putAll(Map t) void – Map <br />
+• remove(Object key) Object – Map <br />
+• size() int – Map <br />
+• toString() String – Object <br />
+• values() Collection – Map <br />
+• wait() void – Object <br />
+• wait(long timeout) void – Object <br />
+• wait(long timeout, int nanos) void – Object <br />
 
-If our application needs a Map of Sensors, you might find the sensors set up like this:
-
+<div dir="rtl">
+اگر برنامه‌ی ما به یک Map از سنسورها نیاز داشته باشد، احتمالا شما برای ساختن آن کدی مانند زیر را پیشنهاد می‌دهید:
+</div>
+<br/>
 
 ```java
 Map sensors = new HashMap();
 ```
 
-Then, when some other part of the code needs to access the sensor, you see this code:
+<br/>
+
+<div dir="rtl">
+سپس زمانی که نیاز به دسترسی به یکی از سنسورها را داشته باشد از کد زیر استفاده می‌کند:
+</div>
+<br/>
 
 ```java
 Sensor s = (Sensor)sensors.get(sensorId );
 ```
-
-We don’t just see it once, but over and over again throughout the code. The client of this
-code carries the responsibility of getting an Object from the Map and casting it to the right
-type. This works, but it’s not clean code. Also, this code does not tell its story as well as it
-could. The readability of this code can be greatly improved by using generics, as shown
-below:
+<br/>
+<div dir="rtl">
+احتمالا کد بالا بارها و بارها در برنامه دیده خواهد شد. کسی که این کد را نوشته احتمالا این قصد را داشته که یک عضو از Map را بگیرد و آن را به نوع درست تغییر دهد.
+این قطعه کد این کار را انجام می‌دهد، اما تمیز نیست. همچنین این کد مسئولیتی که برعهده دارد(دریافت یک عضو از Map) را به درستی بیان نمی‌کند. خوانایی این قطعه کد را می‌توان با استفاده از جنریک تا حد بسیار خوبی بهبود بخشید، در کد زیر این مورد را می‌بینید: 
+</div>
+<br/>
 
 ```java
 Map<Sensor> sensors = new HashMap<Sensor>();
@@ -67,16 +73,14 @@ Map<Sensor> sensors = new HashMap<Sensor>();
 Sensor s = sensors.get(sensorId );
 ```
 
-However, this doesn’t solve the problem that Map<Sensor> provides more capability than we
-need or want.
-Passing an instance of Map<Sensor> liberally around the system means that there will
-be a lot of places to fix if the interface to Map ever changes. You might think such a change
-to be unlikely, but remember that it changed when generics support was added in Java 5.
-Indeed, we’ve seen systems that are inhibited from using generics because of the sheer
-magnitude of changes needed to make up for the liberal use of Maps.
-A cleaner way to use Map might look like the following. No user of Sensors would care
-one bit if generics were used or not. That choice has become (and always should be) an
-implementation detail.
+<br/>
+
+<div dir="rtl">
+از موضوع مورد بحث خارج نشویم. این تغییرات مشکل کد(اسکوپ) را حل نمی‌کند. Map<Sensor> اختیاراتی بیش از آنچه نیاز هست را ارائه می‌دهد. ارسال یک نمونه از Map<Sensor> در سراسر سیستم  به این معنی است که جاهای بسیاری وجود دارد که در صورت تغییر در یک جا باید در آنها نیز تغییرات اعمال شود.
+شاید به این فکر کنید که تغییراتی در این ابعاد بعید است اما نسخه 5 جاوا را به یاد آورید که در آن جنریک به جاوا اضافه شد و تغییرات گسترده‌ای را باعث شد. در طی این به روز رسانی سیستم‌هایی بودند که به دلیل بزرگی نتوانستند از امکانات و مزیت‌های جنریک استفاده کنند.
+یک راه تمیزتر برای استفاده از جنریک می‌تواند کد زیر باشد. هیج کاربری که از Sensores استفاده می‌کند ممکن است اصلا به این که به صورت جنریک نوشته شده باشد اهمیتی ندهد.
+</div>
+<br/>
 
 ```java
 public class Sensors {
@@ -88,41 +92,26 @@ public class Sensors {
 }
 ```
 
-The interface at the boundary ( Map) is hidden. It is able to evolve with very little impact on
-the rest of the application. The use of generics is no longer a big issue because the casting
-and type management is handled inside the Sensors class.
-This interface is also tailored and constrained to meet the needs of the application. It
-results in code that is easier to understand and harder to misuse. The Sensors class can
-enforce design and business rules.
-We are not suggesting that every use of Map be encapsulated in this form. Rather, we
-are advising you not to pass Map s (or any other interface at a boundary) around your
-system. If you use a boundary interface like Map, keep it inside the class, or close family
-of classes, where it is used. Avoid returning it from, or accepting it as an argument to,
-public APIs.
+<br/>
 
-# Exploring and Learning Boundaries
-Third-party code helps us get more functionality delivered in less time. Where do we start
-when we want to utilize some third-party package? It’s not our job to test the third-party
-code, but it may be in our best interest to write tests for the third-party code we use.
-Suppose it is not clear how to use our third-party library. We might spend a day or two
-(or more) reading the documentation and deciding how we are going to use it. Then we
-might write our code to use the third-party code and see whether it does what we think. We
-would not be surprised to find ourselves bogged down in long debugging sessions trying to
-figure out whether the bugs we are experiencing are in our code or theirs.
-Learning the third-party code is hard. Integrating the third-party code is hard too.
-Doing both at the same time is doubly hard. What if we took a different approach? Instead
-of experimenting and trying out the new stuff in our production code, we could write some
-tests to explore our understanding of the third-party code. Jim Newkirk calls such tests
-learning tests.1
-In learning tests we call the third-party API, as we expect to use it in our application.
-We’re essentially doing controlled experiments that check our understanding of that API.
-The tests focus on what we want out of the API.
+<div dir="rtl">
+رابط‌ها(Interface) در مرزها(Boundary) پنهان هستند. این موضوع می‌تواند تاثیر کمتری بر دیگر بخش‌ها بگذارد. استفاده از جنریک‌ها دیگر یک مشکل بزرگ و یک مسئله نیست زیرا با مفاهیم تغییر نوع(Type Casting) و همچنین مدیریت نوع(Type Management) کاملا کنترل شده است.
+این سبک نوشتار منجر به پیچیدگی کمتر و درک بهتر می‌شود، همچنین سو استفاده از آن را نیز سخت‌تر می‌کند.در کلاس Sensors می‌توان منطق تجاری را طراحی و پیاده سازی کرد. درست است که این گونه کد نوشتن مزیت‌هایی دارد اما ما شما را محدود و مجبور به استفاده همیشگی از چنین کدهایی نمی‌کنیم.توصیه ما این است که مانند این مثال مرزهای برنامه را همیشه مشخص کنید و آنها را رعایت کنید.اگر در برنامه خود از یک رابط که مرزهای زیادی دارد(مانند Map) استفاده می‌کنید آن را در کلاس یا خانواده‌ای از کلاس‌ها که به آن نیاز دارند محصور کنید و از بازگرداندن(return) آن به عنوان خروجی یا پذیرش آن به عنوان یک آرگومان ورودی جدا خود داری کنید.
 
-# Learning log4j
-Let’s say we want to use the apache log4j package rather than our own custom-built log-
-ger. We download it and open the introductory documentation page. Without too much
-reading we write our first test case, expecting it to write “hello” to the console.
+# کاوش و یادگیری مرزها
+کدهای طرف سوم(Third-party) به ما کمک می‌کنند تا عملکردهای بیشتری را در مدت زمان کمتری در اختیار داشته باشیم. به نظر شما وقتی می‌خواهیم از پکیج‌های خارجی استفاده کنیم باید از کجا شروع کنیم؟ این وظیفه‌ی ما نیست که این کدها را بیازماییم(Testing) اما ممکن است در مواردی نیاز باشد که این کار را انجام دهیم و برای کدهای خارجی هم تست بنویسیم.
+فرض کنید که نحوه استفاده از یک کتابخانه برای ما روشن نیست. احتمالا ما مجبور می‌شویم یک یا دو روز یا حتی بیشتر را صرف خواندن مستندات آن کنیم تا نحوه استفاده آن را یاد بگیریم. سپس به نوشتن کدهای خودمان بپردازیم تا ببینیم آیا عملکردی که فکر می‌کردیم را از کتابخانه دریافت می‌کنیم. 
+این که در این مواقع زمان زیادی را صرف خطایابی کنیم یک چیز کاملا معمول در بین برنامه نویس‌ها است تا متوجه شوند که آیا ایراد از کد آنها است یا از کتابخانه‌ای که استفاده کرده‌اند. یادگیری کدهای طرف سوم سخت است، یکپارچه سازی آنها سخت‌تر!
+انجام این دو به صورت همزمان پیچیدگی و سختی را دو چندان می‌کند. آیا می‌توان رویکرد متفاوتی اتخاذ کرد؟  به جای نوشتن و آزمودن کدهای جدید روی کدهای محصول خود، می‌توانیم با نوشتن تست برای کدهای طرف سوم، عملکرد و رفتار آنها را راحت‌تر درک کنیم.
+Jim Newkirk به این نوع تست‌‌ها learning test می‌گوید.
+در تست‌های یادگیری ما رابط‌های کاربری(API) کدهای طرف سوم را در شرایطی مشابه شرایطی که می‌خواهیم از آنها استفاده کنیم صدا می‌زنیم تا عملکرد آنها را در تست متوجه شویم.
+در واقع ما یک تجربه‌ی کنترل شده داریم تا فهم خود را از APIها و عملکرد آنها را بیازماییم. تست‌ها بر روی آنچه ما از APIها انتظار داریم متمرکز می‌شوند.
 
+# یادگیری log4j
+فرض کنید که در یک پروژه ما قصد داریم از بسته‌ی log4j شرکت آپاچی به عنوان لاگر استفاده کنیم.
+ما آن را دانلود می‌کنیم و مشابه آنچه در داکیومنت‌های آن ذکر شده آن را نصب می‌کنیم. بدون مطالعه‌ی هیچ چیز اضافه‌ای اولین تست کیس خود را می‌نویسیم، انتظار داریم که در کنسول عبارت "hello" نمایش داده شود.
+</div>
+<br/>
 
 ```java
 @Test
@@ -132,9 +121,12 @@ public void testLogCreate() {
 }
 ```
 
-When we run it, the logger produces an error that tells us we need something called an
-Appender. After a little more reading we find that there is a ConsoleAppender. So we create a
-ConsoleAppender and see whether we have unlocked the secrets of logging to the console.
+<br/>
+<div dir="rtl">
+زمانی که ما این کد را اجرا می‌کنیم، لاگر یک خطا تولید می‌کند که به ما می‌گوید به یک چیز دیگر به نام Appender نیاز دارد. بعد از کمی مطالعه متوجه می‌شویم که یک ConsoleAppender نیز وجود دارد.
+بنابراین ما آن را ساخته و می‌بینیم که راز لاگ کردن در کنسول فاش می‌شود.
+</div>
+<br/>
 
 ```java
 @Test
@@ -146,8 +138,11 @@ public void testLogAddAppender() {
 }
 ```
 
-This time we find that the Appender has no output stream. Odd—it seems logical that it’d
-have one. After a little help from Google, we try the following:
+<br/>
+<div dir="rtl">
+در این هنگام ما در میابیم که Appender جریان خروجی ندارد. عجیب است،  منطقا باید چنین چیزی در آن وجود داشته باشد. بعد از کمی جست و جو در گوگل موارد زیر را امتحان می‌کنیم:
+</div>
+<br/>
 
 ```java
 @Test
@@ -161,20 +156,21 @@ public void testLogAddAppender() {
 }
 ```
 
-That worked; a log message that includes “hello” came out on the console! It seems odd
-that we have to tell the ConsoleAppender that it writes to the console.
-Interestingly enough, when we remove the ConsoleAppender.SystemOut argument, we
-see that “hello” is still printed. But when we take out the PatternLayout, it once again com-
-plains about the lack of an output stream. This is very strange behavior.
-Looking a little more carefully at the documentation, we see that the default
-ConsoleAppender constructor is “unconfigured,” which does not seem too obvious or useful.
-This feels like a bug, or at least an inconsistency, in log4j.
-A bit more googling, reading, and testing, and we eventually wind up with Listing 8-1.
-We’ve discovered a great deal about the way that log4j works, and we’ve encoded that
-knowledge into a set of simple unit tests.
-
-
-Listing 8-1
+<br/>
+<div dir="rtl">
+کار کرد!
+یک پیام لاگ که شامل عبارت "hello" می‌باشد در کنسول نمایش داده می‌شود.
+عجیب به نظر می‌رسد که از ConsoleAppender بخواهیم که در کنسول چیزی را چاپ کند.
+جالب است که اگر ما آرگومان ConsoleAppender.SystemOut را حذف کنیم هنوز هم عبارت "hello" در خروجی کنسول نشان داده می‌شود.
+اما اگر PatternLayout را حذف کنیم یکبار دیگر برنامه از کار می‌افتد و این یک رفتار عجیب است.
+اگر کمی دقیق‌تر به مستندات نگاه کنیم متوه می‌شویم که سازنده‌ی پیشفرض ConsoleAppender در حالت “unconfigured" است، که قابل استفاده نمی‌باشد.
+این مورد مانند یک باگ یا یک ناسازگاری در log4j است. 
+بعد از مطالعه و جست و جوی بیشتر در نهایت ما به لیستی مانند لیست 8.1 می‌رسیم . ما چیزهای زیادی را درمورد log4j یاد گرفتیم و آنها را در قالب مجموعه‌ای تست‌های واحد ساده لیست کردیم:
+<br/>
+<br/>
+لیست :8.2
+<br/>
+</div>
 LogTest.java
 
 ```java
@@ -207,89 +203,48 @@ public class LogTest {
 }
 ```
 
-Now we know how to get a simple console logger initialized, and we can encapsulate
-that knowledge into our own logger class so that the rest of our application is isolated from
-the log4j boundary interface.
+<br/>
 
-# Learning Tests Are Better Than Free
-The learning tests end up costing nothing. We had to learn the API anyway, and writing
-those tests was an easy and isolated way to get that knowledge. The learning tests were
-precise experiments that helped increase our understanding.
-Not only are learning tests free, they have a positive return on investment. When there
-are new releases of the third-party package, we run the learning tests to see whether there
-are behavioral differences.
-Learning tests verify that the third-party packages we are using work the way we
-expect them to. Once integrated, there are no guarantees that the third-party code will stay
-compatible with our needs. The original authors will have pressures to change their code to
-meet new needs of their own. They will fix bugs and add new capabilities. With each
-release comes new risk. If the third-party package changes in some way incompatible with
-our tests, we will find out right away.
-Whether you need the learning provided by the learning tests or not, a clean boundary
-should be supported by a set of outbound tests that exercise the interface the same way the
-production code does. Without these boundary tests to ease the migration, we might be
-tempted to stay with the old version longer than we should.
+<div dir="rtl">
+اکنون می‌دانیم که چگونه یک کنسول لاگر ساده را مقدار دهی کنیم و می‌توانیم با کپسوله کردن آن در کد خودمان، مرزهای استفاده آن را محدود و آن را امن‌تر کنیم.
 
-# Using Code That Does Not Yet Exist
-There is another kind of boundary, one that separates the known from the unknown. There
-are often places in the code where our knowledge seems to drop off the edge. Sometimes
-what is on the other side of the boundary is unknowable (at least right now). Sometimes
-we choose to look no farther than the boundary.
-A number of years back I was part of a team developing software for a radio com-
-munications system. There was a subsystem, the “Transmitter,” that we knew little
-about, and the people responsible for the subsystem had not gotten to the point of defining
-their interface. We did not want to be blocked, so we started our work far away from the
-unknown part of the code.
-We had a pretty good idea of where our world ended and the new world began. As we
-worked, we sometimes bumped up against this boundary. Though mists and clouds of
-ignorance obscured our view beyond the boundary, our work made us aware of what we
-wanted the boundary interface to be. We wanted to tell the transmitter something like this:
-Key the transmitter on the provided frequency and emit an analog representation of the
-data coming from this stream.
-We had no idea how that would be done because the API had not been designed yet.
-So we decided to work out the details later.
-To keep from being blocked, we defined our own interface. We called it something
-catchy, like Transmitter. We gave it a method called transmit that took a frequency and a
-data stream. This was the interface we wished we had.
-One good thing about writing the interface we wish we had is that it’s under our
-control. This helps keep client code more readable and focused on what it is trying to
-accomplish.
-In Figure 8-2, you can see that we insulated the CommunicationsController classes
-from the transmitter API (which was out of our control and undefined). By using our own
-application specific interface, we kept our CommunicationsController code clean and
-expressive. Once the transmitter API was defined, we wrote the TransmitterAdapter to
-bridge the gap. The ADAPTER2 encapsulated the interaction with the API and provides a
-single place to change when the API evolves.
+# تست‌های یادگیری از یادگیری آزاد بهتر هستند
+
+تست‌های یادگیری در نهایت هیچ هزینه‌ای ندارند. به هر حال باید API را یاد می‌گرفتیم و نوشتن آن تست‌ها راهی آسان و مجزا برای به دست آوردن این دانش بود. تست‌های یادگیری آزمایش‌های دقیقی بودند که به افزایش درک ما کمک کردند.
+نه تنها تست‌های یادگیری رایگان هستند بلکه یادگیری استفاده از آنها نوعی سرمایه گذاری نیز به حساب می‌آید. زمانی که نسخه‌های جدیدی از این کدها و کتابخانه‌ها منتشر می‌شوند ما با اجرای همان تست‌ها می‌توانیم بفهمیم که آیا در نسخه جدید رفتار متفاوتی وجود دارد یا خیر.
+توسعه‌دهندگان اصلی این کدها معمولا برای اینکه نیازهای جدید را پاسخ دهند تحت فشار هستند.
+آنها مجبورند تا باگ‌ها را برطرف کنند و قابلیت‌های جدید را به کدهای خود بی‌افزایند، اگر این تغییرات باعث شود که رفتاری ناسازگار با کدهای ما از آنها سر بزند، با اجرای تست‌ها ما فورا متوجه خواهیم شد.
+<br/>
+چه به این شیوه‌ی یادگیری معتقد باشید چه نباشید، تست‌ها باید یک مرز خارجی تمیز و مشخص برای عملکردهای مشابه برنامه به وجود بیاورند تا اسکوپ و مرزهای برنامه مشخص باشد.
+
+# استفاده از کدهایی که هنوز وجود ندارند
+نوع دیگری از مرزها وجود دارند، نوعی که معلومات را از مجهولات تمایز می‌دهند.
+جاهایی در مسیر کد وجود دارند که از دانش ما فراتر هستند. گاهی هیچ دیدی از آنچه که ممکن است در آینده رخ دهد نداریم. گاهی انتخاب می‌کنیم یا مجبوری می‌شویم که فراتر از مرزهای کد را نبینیم.
+چند سال پیش من عضوی از یک تیم توسعه نرم‌افزار برای سیستم ارتباطات رادیویی بودم. یک زیرسیستم به نام «فرستنده» وجود داشت که ما اطلاعات کمی درباره آن داشتیم، و افراد مسئول این زیرسیستم به نقطه تعریف رابط خود نرسیده بودند. ما نمی‌خواستیم معطل شویم، بنابراین کار خود را دور از قسمت ناشناخته کد شروع کردیم.
+ما دید بسیار خوبی از این که مرزهای زیرسیستم ما کجا شروع می‌شوند و در کجا خاتمه می‌یابند داشتیم. اگر چه نداشتن اطلاعات از آن سوی سیستم ما را در یک جهل قرار داده بود اما این کار ما باعث شد تا از آنچه که از رابط با آن زیر سیستم انتظار داشتیم آگاه شویم و این مسئله برای ما شفاف شود.
+<br/>
+ما می‌خواستیم چنین چیزی به فرستنده بگوییم:
+فرستنده را روی فرکانس ارائه شده کلید زده و آن، یک نمایش آنالوگ از داده‌های حاصل از این جریان منتشر می‌کند. ما نمی‌دانستیم که چگونه این کار انجام می‌شود زیرا API هنوز طراحی نشده بود. بنابراین تصمیم گرفتیم که بعداً جزئیات را بررسی کنیم. برای جلوگیری از معطل  شدن، رابط کاربری خود را تعریف کردیم. اسمی که برای آن انتخاب کرده بودیم یک اسم جذاب  مانند فرستنده بود. ما یک تابع به نام "transmit" تعریف کردیم که یک فرکانس و یک جریان داده را  به عنوان ورودی می‌گرفت. این رابطی بود که انتظار داشتیم داشته باشیم.
+<br/>
+
+یک نکته مثبت درمورد نوشتن یک رابط که مورد انتظار ما بود این بود که تحت کنترل ما بود. این به ما کمک می‌کرد که خوانایی کد مشتری را حفظ کنیم و بر روی وظیفه‌ای که باید انجام می‌شد متمرکز شویم.
+<br/>
+در شکل 8-2، می بینید که ما کلاس‌های CommunicationsController را از API فرستنده (که خارج از کنترل ما بود و تعریف نشده بود) ایزوله کردیم. با استفاده از رابط کاربری مشخص برنامه خود، کد CommunicationsController خود را تمیز و گویا نگه داشتیم. هنگامی که API فرستنده تعریف شد، TransmitterAdapter را نوشتیم تا شکاف را پر کنیم. ADAPTER2 تعامل با API را کپسوله می کند و یک نقطه واحد برای تغییر، در زمانی که API تکامل می یابد، فراهم می کند.
 
 ![](img-8.2.png) 
 
-This design also gives us a very convenient seam3 in the code for testing. Using a
-suitable FakeTransmitter, we can test the CommunicationsController classes. We can also
-create boundary tests once we have the TransmitterAPI that make sure we are using the
-API correctly.
-Clean Boundaries
-Interesting things happen at boundaries. Change is one of those things. Good software
-designs accommodate change without huge investments and rework. When we use code
-that is out of our control, special care must be taken to protect our investment and make
-sure future change is not too costly.
-Code at the boundaries needs clear separation and tests that define expectations. We
-should avoid letting too much of our code know about the third-party particulars. It’s better
-to depend on something you control than on something you don’t control, lest it end up
-controlling you.
-We manage third-party boundaries by having very few places in the code that refer to
-them. We may wrap them as we did with Map, or we may use an ADAPTER to convert from
-our perfect interface to the provided interface. Either way our code speaks to us better,
-promotes internally consistent usage across the boundary, and has fewer maintenance
-points when the third-party code changes.
+این طراحی همچنین به ما یک اطمینان درمورد تست‌ها به ما می‌دهد. با استفاده از یک  FakeTransmitter ما می‌توانیم کلاس‌های CommunicationsController را تست کنیم.
+
+##  مرزهای مشخص
+اتفاقات جالبی در مرزهای برنامه‌ها می‌افتد. یکی از این اتفاقات تغییرات است. یک طراحی نرم افزاری خوب، طراحی‌ای است که بتواند با حداقل هزینه و زمان تغییرات را مدیریت کند و انعطاف مناسبی در برابر آنها داشته باشد.
+زمانی که از یک کد که خارج از کنترل ما است استفاده می‌کنیم باید به شدت مواظب باشیم تا طراحی مناسب خود را از دست ندهیم و هزینه‌های جاری و آتی اضافه‌ای را به سیستم تحمیل نکنیم.
+
+کد در مرزها نیاز به جداسازی واضح و تست‌هایی دارد که انتظارات را مشخص می‌کند. ما باید از اطلاع بیش از حد کد خود در مورد جزئیات کدهای طرف سوم خودداری کنیم. بهتر است به چیزی که کنترل می‌کنیم متکی باشیم تا چیزی که کنترل آن را نداریم، تا مبادا در نهایت شما را کنترل کند.
+
+ما مرزهای شخص ثالث را با داشتن مکان های بسیار کمی در کد که به آنها اشاره دارد، مدیریت می کنیم. ممکن است آنها را همانطور که با Map انجام دادیم بپیچانیم، یا ممکن است از یک آداپتور برای تبدیل از رابط کامل خود به رابط ارائه شده استفاده کنیم. در هر صورت کد ما بهتر با ما صحبت می‌کند، در استفاده‌های داخلی سازگارتر است و هنگام تغییر کد طرف سوم، نقاط کمتری برای نگهداری دارد.
+</div>
 
 
+* [فصل بعد](../5_Formatting(completed)/9_Unit_Tests.md)
 
-
-
-
-
-
-
-
-
- 
- 
+* [فصل قبل](../3_Functions(completed)/5_Formatting.md.md)
