@@ -421,6 +421,6 @@ public class GuessStatisticsMessage{
 برخی از این قوانین را دنبال کنید و ببینید آیا خوانایی کد خود را بهبود می‌بخشید یا خیر. اگر کد شخص دیگری را نگهداری می‌کنید، برای حل این مشکلات از ابزارهای refactoring استفاده کنید. در کوتاه مدت نتیجه را می بینید و درازمدت به افزایش بهبودها ادامه می‌دهد.
 </div>
 
-* [فصل بعد](../3_Functions(completed)/3_Functions.md)
+* [فصل بعد](../3_Functions/3_Functions.md)
 
-* [فصل قبل](../1_Clean_Code(completed)/clean-code.md)
+* [فصل قبل](../1_Clean_Code/clean-code.md)

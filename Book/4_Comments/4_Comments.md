@@ -184,11 +184,9 @@ public void testCompareTo() throws Exception
 
 البته یک خطر اساسی وجود دارد که یک کامنت روشن نادرست باشد. مثال قبلی را مرور کنید و ببینید تایید صحت آنها چقدر دشوار است. هم شفاف‌سازی لازم است و هم اینکه چرا خطرناک است. بنابراین قبل از نوشتن کامنت‌هایی از این دست ، مراقب باشید که راهی بهتر وجود نداشته باشد و حتی بیشتر دقت کنید که درست باشند.
 
-</div>
-
-![](img-4.2.png)
-
-<div dir="rtl">
+<p align="center">
+  <img src=img-4.2.png/>
+</p>
 
 ## هشدار پیامدها
 
@@ -1056,6 +1054,6 @@ public class PrimeGenerator
 
 </div>
 
-* [فصل بعد](../5_Formatting(completed)/5_Formatting.md)
+* [فصل بعد](../5_Formatting/5_Formatting.md)
 
-* [فصل قبل](../3_Functions(completed)/3_Functions.md)
+* [فصل قبل](../3_Functions/3_Functions.md)
