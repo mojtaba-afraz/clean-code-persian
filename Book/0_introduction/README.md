@@ -38,7 +38,7 @@
 # تصویر روی جلد کتاب
 
 <p align="center">
-  <img width="75%" src="https://github.com/hootanht/clean-code-persian/blob/master/0_introduction(completed)/img0-2.png"/>
+  <img width="75%" src=img0-2.png/>
 </p>
 
 تصویر روی جلد کتاب، کهکشان کلاه مکزیکی یا M104 است. M1104 در صورت فلکی سنبله واقع شده است و تقریبا ۳۰ میلیون سال نوری از ما فاصله دارد. در هسته آن یک سیاه چاله فوق عظیم قرار دارد که وزن آن حدود یک میلیارد برابر خورشید است.
