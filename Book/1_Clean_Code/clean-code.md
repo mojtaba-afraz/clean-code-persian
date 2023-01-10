@@ -113,6 +113,6 @@
 
 </div>
 
-* [فصل بعد](../2_meaningful-names(completed)/meaningful-names.md)
+* [فصل بعد](../2_meaningful-names/meaningful-names.md)
 
-* [فصل قبل](../0_introduction(completed)/introduction.md)
+* [فصل قبل](../0_introduction/introduction.md)
