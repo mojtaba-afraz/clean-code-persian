@@ -1056,6 +1056,6 @@ public class PrimeGenerator
 
 </div>
 
-* [فصل بعد](../5_Formatting(completed)/5_Formatting.md)
+* [فصل بعد](../5_Formatting/5_Formatting.md)
 
-* [فصل قبل](../3_Functions(completed)/3_Functions.md)
+* [فصل قبل](../3_Functions/3_Functions.md)
