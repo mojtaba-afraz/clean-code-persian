@@ -686,3 +686,4 @@ public class CodeAnalyzer implements JavaFileAnalysis {
 ```
 
 * [فصل قبل](../4_Comments/4_Comments.md)
+* [فصل بعد](../6_Objects-And-Data-Structures/Objects-And-Data-Structures.md)
