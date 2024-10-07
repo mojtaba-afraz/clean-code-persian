@@ -6,7 +6,7 @@
 </p>
 
 این پروژه یک کار گروهی برای ترجمه آزاد یکی از بهترین کتاب های برنامه نویسیه.
-از اونجایی که <a href="https://github.com/mojtaba-afraz/clean-code-persian">ریپوی اصلی</a>  خیلی وقته که آپدیت نشده و pull request ها بررسی نمیشن تصمیم گرفتم اینجا کتابو کامل کنم .
+
 ## راهنمای مشارکت
 حتی ترجمه ی یک صفحه خیلی میتونه بهمون کمک کنه .
 
@@ -35,3 +35,5 @@
 * [فصل 8 : مرز ها](Book/8_Boundaries/8_Boundaries.md)
 
 * [فصل 9 : unit تست](Book/9_Unit_Tests/9_Unit_Tests.md)
+
+* [فصل 10 : کلاس ها](Book/10_Classes/Classes.md)
