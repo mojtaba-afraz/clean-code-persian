@@ -1,4 +1,4 @@
-![alt text](img_3.1.png)
+![alt text](../../assets/image/03/img_3.1.png)
 <div dir='rtl'>
 
 # توابع

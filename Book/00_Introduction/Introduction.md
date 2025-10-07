@@ -5,7 +5,7 @@
 </div>
 
 <p align="center">
-  <img src=img-0.1.png/>
+  <img src=../../assets/image/00/img-0.1.png/>
 </p>
 
 <div dir='rtl'>

@@ -1,6 +1,6 @@
 # تست های واحد
 
-![unit tests](img-9.1.png "unit tests")
+![unit tests](../../assets/image/09/img-9.1.png "unit tests")
 
 <div dir="rtl">
 

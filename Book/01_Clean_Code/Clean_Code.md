@@ -4,7 +4,7 @@
 
 </div>
 
-![clean code](img-1.1.png "clean code")
+![clean code](../../assets/image/01/img-1.1.png)
 
 <div dir="rtl">
 
@@ -40,7 +40,7 @@
  
 
 <p align="center">
-  <img src=img-1.2.png/>
+  <img src=../../assets/image/01/img-1.2.png/>
 </p>
 
 

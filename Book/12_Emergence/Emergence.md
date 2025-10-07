@@ -1,6 +1,6 @@
 # پاک شدن از طریق طراحی پدیدار‌شونده
 
-![classes image](img-12.1.png)
+![classes image](../../assets/image/12/img-12.1.png)
 
 <div dir="rtl">
 

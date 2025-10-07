@@ -2,7 +2,7 @@
 
 Case Study of a Command-Line Argument Parser
 
-![image](img-14.1.png)
+![image](../../assets/image/14/img-14.1.png)
 
 <div dir="rtl">
 

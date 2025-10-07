@@ -1,6 +1,6 @@
 # بازسازی SerialDate
 
-![image](img-16.1.png)
+![image](../../assets/image/16/img-16.1.png)
 
 <div dir="rtl">
 
