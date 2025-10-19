@@ -18,6 +18,13 @@
   <img src="https://visitor-badge.laobi.icu/badge?page_id=mojtaba-afraz.clean-code-persian" alt="Visitors">
 </p>
 
+<h1>
+<p align="center">
+   <a href="https://hheydarian.github.io/Gitab/" target="_blank"><strong>  گیتاب —  نسخه آنلاین کتاب </strong></a>
+</p>
+ </h1>
+
+
 ---
 
 ## ✨ معرفی پروژه
@@ -51,24 +58,24 @@
 
 | شماره | نام فصل (انگلیسی)              | نام فصل (فارسی)                           | وضعیت | لینک |
 |-------|---------------------------------|--------------------------------------------|--------|------|
-| 00    | Introduction                    | مقدمه                                      | ✅     | [Introduction](Book/00/Introduction.md) |
-| 01    | Clean Code                      | کد تمیز                                    | ✅     | [Clean_Code](Book/01/Clean_Code.md) |
-| 02    | Meaningful Names                | اسامی با معنی                              | ✅     | [Meaningful_Names](Book/02/Meaningful_Names.md) |
-| 03    | Functions                       | توابع                                      | ✅     | [Functions](Book/03/3_Functions.md) |
-| 04    | Comments                        | کامنت‌ها                                   | ✅     | [Comments](Book/04/4_Comments.md) |
-| 05    | Formatting                      | فرمت‌دهی                                   | ✅     | [Formatting](Book/05/5_Formatting.md) |
-| 06    | Objects and Data Structures     | اشیا و ساختارهای داده                     | ✅     | [Objects_And_Data_Structures](Book/06/Objects_And_Data_Structures.md) |
-| 07    | Error Handling                  | مدیریت خطا                                 | ✅     | [Error_Handling](Book/07/Error_Handling.md) |
-| 08    | Boundaries                      | مرزها                                      | ✅     | [Boundaries](Book/08/Boundaries.md) |
+| 00    | Introduction                    | مقدمه                                      | ✅     | [Introduction](Book/00_Introduction/Introduction.md) |
+| 01    | Clean Code                      | کد تمیز                                    | ✅     | [Clean_Code](Book/01_Clean_Code/Clean_Code.md) |
+| 02    | Meaningful Names                | اسامی با معنی                              | ✅     | [Meaningful_Names](Book/02_Meaningful_Names/Meaningful_Names.md) |
+| 03    | Functions                       | توابع                                      | ✅     | [Functions](Book/03_Functions/3_Functions.md) |
+| 04    | Comments                        | کامنت‌ها                                   | ✅     | [Comments](Book/04_Comments/4_Comments.md) |
+| 05    | Formatting                      | فرمت‌دهی                                   | ✅     | [Formatting](Book/05_Formatting/5_Formatting.md) |
+| 06    | Objects and Data Structures     | اشیا و ساختارهای داده                     | ✅     | [Objects_And_Data_Structures](Book/06_Objects_And_Data_Structures/Objects_And_Data_Structures.md) |
+| 07    | Error Handling                  | مدیریت خطا                                 | ✅     | [Error_Handling](Book/07_Error_Handling/Error_Handling.md) |
+| 08    | Boundaries                      | مرزها                                      | ✅     | [Boundaries](Book/08_Boundaries/Boundaries.md) |
 | 09    | Unit Tests                      | تست‌های واحد                               | ✅     | [Unit_Tests](Book/09_Unit_Tests/Unit_Tests.md) |
-| 10    | Classes                         | کلاس‌ها                                    | ✅     | [Classes](Book/10/Classes.md) |
-| 11    | Systems                         | سیستم‌ها                                   | ✅     | [Systems](Book/11/Systems.md) |
-| 12    | Emergence                       | پاک شدن از طریق طراحی پدیدارشونده          | ✅     | [Emergence](Book/12/Emergence.md) |
-| 13    | Concurrency                     | هم‌زمانی                                   | ✅     | [Concurrency](Book/13/Concurrency.md) |
-| 14    | Successive Refinement           | بهبود تدریجی                               | ✅     | [Successive_Refinement](Book/14/Successive_Refinement.md) |
-| 15    | JUnit Internals                 | ساختار JUnit                               | ✅     | [JUnit_Internals](Book/15/JUnit_Internals.md) |
-| 16    | Refactoring SerialDate          | بازسازی SerialDate                         | ✅     | [Refactoring_SerialDate](Book/16/Refactoring_SerialDate.md) |
-| 17    | Smells and Heuristics           | بوها و اصول                                | ✅     | [Smells_And_Heuristics](Book/17/Smells_And_Heuristics.md) |
+| 10    | Classes                         | کلاس‌ها                                    | ✅     | [Classes](Book/10_Classes/Classes.md) |
+| 11    | Systems                         | سیستم‌ها                                   | ✅     | [Systems](Book/11_Systems/Systems.md) |
+| 12    | Emergence                       | پاک شدن از طریق طراحی پدیدارشونده          | ✅     | [Emergence](Book/12_Emergence/Emergence.md) |
+| 13    | Concurrency                     | هم‌زمانی                                   | ✅     | [Concurrency](Book/13_Concurrency/Concurrency.md) |
+| 14    | Successive Refinement           | بهبود تدریجی                               | ✅     | [Successive_Refinement](Book/14_Successive_Refinement/Successive_Refinement.md) |
+| 15    | JUnit Internals                 | ساختار JUnit                               | ✅     | [JUnit_Internals](Book/15_JUnit_Internals/JUnit_Internals.md) |
+| 16    | Refactoring SerialDate          | بازسازی SerialDate                         | ✅     | [Refactoring_SerialDate](Book/16_Refactoring_SerialDate/Refactoring_SerialDate.md) |
+| 17    | Smells and Heuristics           | بوها و اصول                                | ✅     | [Smells_And_Heuristics](Book/17_Smells_And_Heuristics/Smells_And_Heuristics.md) |
 | A    | Concurrency II           | هم‌روندی بخش دوم                                | ✅     | [Concurrency_II](Book/Appendix_A/Concurrency_II.md) |
 | B    | org.jfree.date.SerialDate           | کلاس org.jfree.date.SerialDate                                | ✅     | [org.jfree.date.SerialDate](Book/Appendix_B/org.jfree.date.SerialDate.md) |
 | C    | Cross_References_of_Heuristics           | ارجاعات متقابل هِوریستیک‌ها                               | ✅     | [Cross_References_of_Heuristics](Book/Appendix_C/Cross_References_of_Heuristics.md) |
